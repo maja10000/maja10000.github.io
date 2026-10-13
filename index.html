@@ -83,6 +83,7 @@
   @media (hover: none), (pointer: coarse) { .tip { display: none; } }
 
   /* Project pages: a grey stripe with black edges */
+  .paper.project-open { padding-bottom: 0; }
   .project { display: none; }
   .project.on { display: block; }
   .home.off { display: none; }
@@ -127,7 +128,6 @@
   .project .notes p { scroll-margin-top: 20px; }
   .project .notes a { color: var(--link); }
   .project .notes { margin: 28px auto 0; width: 82%; display: grid; gap: .3em; font-size: 12.5px; line-height: 1.35; color: #4A4A4A; }
-  .project .todo { margin: 34px auto 0; width: 82%; border: 1px dashed #8C8C8C; padding: 30px; text-align: center; color: #5A5A5A; font-size: 14px; }
 
   @media (max-width: 720px) {
     body { padding-inline: 0; font-size: 16px; }
@@ -135,7 +135,7 @@
     .w-sock .cap { font-size: 16px; }
     .work .cap { white-space: normal; }
     .stripe { padding-inline: 18px; }
-    .project .desc, .project .todo, .project .gallery img { width: 100%; max-width: 100%; }
+    .project .desc, .project .gallery img { width: 100%; max-width: 100%; }
     .project .videos { grid-template-columns: 1fr; }
     .w-sock .shots, .w-piano .shots { justify-content: flex-start; }
     .indent { margin-left: 0; }
@@ -216,7 +216,6 @@
       <div class="videos" id="p-videos"></div>
       <div class="desc" id="p-desc"></div>
       <div class="tail" id="p-tail"></div>
-      <p class="todo" id="p-todo">More images of this project go here.</p>
       <div class="notes" id="p-notes"></div>
     </div>
   </div>
@@ -520,18 +519,20 @@
   /* Project pages */
   const home = document.getElementById('home'), project = document.getElementById('project');
   const pTitle = document.getElementById('p-title'), pDesc = document.getElementById('p-desc'),
-        pGallery = document.getElementById('p-gallery'), pTodo = document.getElementById('p-todo'),
+        pGallery = document.getElementById('p-gallery'),
         pNotes = document.getElementById('p-notes'), pFeatured = document.getElementById('p-featured'),
         reqLeft = document.getElementById('req-left'), reqRight = document.getElementById('req-right'),
         pCredit = document.getElementById('p-credit'), pVideos = document.getElementById('p-videos'),
         pTail = document.getElementById('p-tail');
 
+  const paper = document.querySelector('.paper');
+
   function route() {
     const key = location.hash.replace('#', '');
     const w = WORKS[key];
     tip.classList.remove('on');
-    if (!w) { home.classList.remove('off'); project.classList.remove('on'); return; }
-    home.classList.add('off'); project.classList.add('on');
+    if (!w) { home.classList.remove('off'); project.classList.remove('on'); paper.classList.remove('project-open'); return; }
+    home.classList.add('off'); project.classList.add('on'); paper.classList.add('project-open');
     pTitle.innerHTML = '';
     const tt = document.createElement('span'); tt.className = 't'; tt.textContent = w.title;
     pTitle.appendChild(tt);
@@ -568,7 +569,7 @@
     pGallery.className = w.narrow ? 'gallery narrow' : 'gallery';
     // photo before or after the description
     const stripe = pGallery.parentElement;
-    if (w.imagesAfterDesc) stripe.insertBefore(pGallery, pTodo);
+    if (w.imagesAfterDesc) stripe.appendChild(pGallery);
     else stripe.insertBefore(pGallery, pVideos);
     w.images.forEach(src => { const i = document.createElement('img'); i.src = src; i.alt = w.title; pGallery.appendChild(i); });
     pTail.innerHTML = '';
@@ -580,7 +581,6 @@
       v.src = src; v.controls = true; v.playsInline = true; v.preload = 'metadata';
       pVideos.appendChild(v);
     });
-    pTodo.textContent = w.images.length ? 'More images of this project go here.' : 'Images of this project go here.';
     pNotes.innerHTML = '';
     (w.notes || []).forEach(note => {
       const p = document.createElement('p');
