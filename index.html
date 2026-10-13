@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maja Mikulska</title>
+<style>
+  :root {
+    --ground: #E9E8E6;
+    --paper: #FFFFFF;
+    --ink: #1D1D1B;
+    --muted: #6E6D6B;
+    --link: #22357F;
+    --rule: #C9C8C5;
+    color-scheme: light;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font: 17px/1.45 "Times New Roman", Times, serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    padding-inline: clamp(0px, 4vw, 140px);
+  }
+  .paper { background: var(--paper); min-height: 100%; max-width: 790px; margin-inline: auto; padding-bottom: 180px; }
+  .project .stripe { margin-bottom: 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible { outline: 1px solid var(--link); outline-offset: 3px; }
+  img { max-width: 100%; display: block; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 54px clamp(16px, 5vw, 60px); }
+
+  .banner { width: 100%; }
+  .bio { margin: 26px clamp(16px, 5vw, 60px) 0 14px; max-width: 78ch; font-size: 18px; }
+
+  /* Home: works scattered across the sheet */
+  .works { padding-inline: clamp(16px, 5vw, 60px); }
+  .work { margin-block: 30px 56px; max-width: 100%; background: #F1F1F1; padding: 10px 14px 14px; }
+  .work .cap { font-size: 17px; margin-bottom: 6px; }
+  .work .cap .label { color: var(--link); }
+  .work .cap a { color: var(--ink); }
+  .work .cap .yr { color: var(--link); }
+  .work .shots { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
+  .work img { cursor: pointer; }
+  .w-eater { width: 300px; }
+  .w-eater .shots img { width: 260px; }
+  .w-sock { width: 320px; margin-left: auto; margin-right: 7%; margin-top: -250px; text-align: right; }
+  .w-sock .shots img { width: 290px; }
+  .w-sock .cap { font-size: 14px; }
+  .w-sock .shots { justify-content: flex-end; }
+  .w-scroll { width: auto; max-width: none; background: none; padding: 0;
+               margin-inline: calc(clamp(16px, 5vw, 60px) * -1); }
+  .w-scroll .cap { padding-left: 14px; }
+  .w-scroll .gif { width: 100%; }
+  .w-piano { width: 320px; margin-left: auto; margin-right: 4%; }
+  .w-piano .cap { text-align: left; }
+  .w-piano .shots { justify-content: flex-end; }
+
+  .picks, .socials { padding-inline: clamp(16px, 5vw, 60px); }
+  .extra-wrap { padding-inline: clamp(16px, 5vw, 60px); margin-top: 34px; display: flex; justify-content: flex-end; }
+  .extra { background: #F1F1F1; padding: 10px 12px 12px; display: grid; gap: 8px; justify-items: start; }
+  .extra .note { font-size: 15px; max-width: 26ch; }
+  .extra img { width: 220px; max-width: 100%; }
+  .picks .label, .socials .label { color: var(--link); }
+  .picks ul, .socials ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 4px; justify-items: start; }
+  .picks .photos { margin: 12px 0 0; }
+  .indent { margin-left: clamp(0px, 12vw, 160px); }
+
+  /* Hover description */
+  .tip {
+    position: fixed; z-index: 10; width: 230px; overflow: hidden;
+    background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 8px 26px rgba(0,0,0,.12);
+    padding: 8px; font-size: 13.5px; line-height: 1.38; pointer-events: none;
+    opacity: 0; transition: opacity .12s; top: 0; left: 0;
+  }
+  .tip.on { opacity: 1; }
+  .tip .thumb { width: 100%; aspect-ratio: 1; object-fit: cover; background: #EFEEEC; }
+  .tip .words { padding: 8px 4px 4px; }
+  .tip b { display: block; font-weight: 400; font-style: italic; margin-bottom: 4px; }
+
+  @media (hover: none), (pointer: coarse) { .tip { display: none; } }
+
+  /* Project pages: a grey stripe with black edges */
+  .project { display: none; }
+  .project.on { display: block; }
+  .home.off { display: none; }
+  .stripe {
+    max-width: 560px; margin-inline: auto; min-height: 100vh;
+    background: #D6D6D6; position: relative;
+    --pad: clamp(18px, 4vw, 34px);
+    padding: 26px var(--pad) 90px;
+  }
+  .back { font-size: 15px; margin-bottom: 22px; }
+  .request { position: absolute; writing-mode: vertical-rl; transform: rotate(180deg);
+             font-size: 15px; color: var(--link); text-decoration: underline;
+             text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .request.left { left: 10px; top: 42%; }
+  .request.right { right: 10px; top: 24%; }
+  .project h1 { margin: 0; font-size: clamp(22px, 2.7vw, 27px); font-weight: 400; line-height: 1.35; }
+  .project h1 .t { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .project h1 .m { color: var(--ink); }
+  .project .gallery { margin: 30px calc(clamp(18px, 4vw, 34px) * -1) 0; display: grid; gap: 14px; }
+  .project .gallery img { width: 100%; }
+  .project .gallery.narrow { justify-items: center; }
+  .project .gallery.narrow img { width: auto; max-width: 300px; max-height: 75vh; }
+  .project .videos { margin: 14px calc(clamp(18px, 4vw, 34px) * -1) 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .project .videos.centered { margin: 26px auto 0; grid-template-columns: 1fr; gap: 20px; width: 300px; max-width: 100%; }
+  .project .videos:empty { display: none; }
+  .project .tail { margin: 22px calc(clamp(18px, 4vw, 34px) * -1) 0; display: grid; gap: 14px; }
+  .project .tail:empty { display: none; }
+  .project .tail img { width: 100%; display: block; }
+  .project .videos video { width: 100%; aspect-ratio: 9 / 16; display: block; background: #000; object-fit: contain; }
+  .project .credit { margin: 10px 0 0; font-size: 14px; color: #3A3A3A; }
+  .project .featured { margin: 4px 0 0; font-size: 14px; }
+  .project .desc { margin: 34px auto 0; width: 82%; display: grid; gap: .5em; font-size: 16px; line-height: 1.45; text-align: justify; hyphens: auto; }
+  .project .pair { display: grid; grid-template-columns: 1fr; gap: 14px;
+                   width: calc(100% / .82 + var(--pad) * 2);
+                   margin: 18px 0 18px calc((100% / .82 - 100%) / -2 - var(--pad)); }
+  .project .pair img { width: 100%; height: auto; display: block; }
+  .project .desc p, .project .notes p { margin: 0; }
+  .project .desc p.italic { font-style: italic; }
+  .project .desc sup { font-size: .62em; line-height: 0; vertical-align: super; }
+  .project .desc sup a { color: var(--link); text-decoration: none; }
+  .project .desc sup a:hover { text-decoration: underline; }
+  .project .notes p { scroll-margin-top: 20px; }
+  .project .notes a { color: var(--link); }
+  .project .notes { margin: 28px auto 0; width: 82%; display: grid; gap: .3em; font-size: 12.5px; line-height: 1.35; color: #4A4A4A; }
+  .project .todo { margin: 34px auto 0; width: 82%; border: 1px dashed #8C8C8C; padding: 30px; text-align: center; color: #5A5A5A; font-size: 14px; }
+
+  @media (max-width: 720px) {
+    body { padding-inline: 0; font-size: 16px; }
+    .work, .w-piano, .w-sock, .w-scroll { width: auto; max-width: 100%; margin-inline: 0; margin-top: 30px; text-align: left; }
+    .w-sock .cap { font-size: 16px; }
+    .work .cap { white-space: normal; }
+    .stripe { padding-inline: 18px; }
+    .project .desc, .project .todo, .project .gallery img { width: 100%; max-width: 100%; }
+    .project .videos { grid-template-columns: 1fr; }
+    .w-sock .shots, .w-piano .shots { justify-content: flex-start; }
+    .indent { margin-left: 0; }
+
+  }
+</style>
+</head>
+<body>
+
+<div class="paper">
+  <div class="home" id="home">
+    <img class="banner" src="img/banner.jpg" alt="Maja Mikulska — since April 2000">
+
+    <p class="bio">Born in Warsaw, Poland, in 2000. From 2022 to 2026 studied BA Interactive/Media/Design at the Royal Academy of Art, The Hague. In 2025 interned at <a href="https://thehmm.nl/" target="_blank" rel="noopener">The Hmm</a>, Amsterdam, and since 2026 have been an intern at <a href="https://www.gast.studio/" target="_blank" rel="noopener">Gast Studio</a>, Amsterdam.</p>
+
+    <hr>
+
+    <div class="works">
+      <div class="work w-eater">
+        <p class="cap"><span class="label">Selected works:</span> <a href="#eater" data-work="eater">What Life Feels Like When You Have a Real Eater, <span class="yr">2026</span></a></p>
+        <div class="shots"><img src="img/eater.jpg" alt="Installation view: purple exercise balls and a screen in a gallery corner" data-work="eater" data-go="#eater"></div>
+      </div>
+
+      <div class="work w-sock">
+        <p class="cap"><span class="label">Selected works:</span> <a href="https://open.spotify.com/episode/1vAVGthy7P2hj8j23NHL8S?si=663912fe28af4eb4&nd=1&dlsi=9f9296ed780f4b72" target="_blank" rel="noopener" data-work="sock">“Sock the Bushwick Enby” – podcast episode, <span class="yr">2025</span></a></p>
+        <div class="shots"><img src="img/sock.jpg" alt="Podcast thumbnail: white socked feet with a play button" data-work="sock" data-go="https://open.spotify.com/episode/1vAVGthy7P2hj8j23NHL8S?si=663912fe28af4eb4&nd=1&dlsi=9f9296ed780f4b72"></div>
+      </div>
+
+      <hr>
+
+      <div class="work w-scroll">
+        <p class="cap"><span class="label">Selected works:</span> <a href="#scroll" data-work="scroll">The Testament of the Flickering Scroll, <span class="yr">2025</span></a></p>
+        <div class="shots">
+          <img class="gif" src="img/scroll.gif" alt="Hands flicking through a flip book" data-work="scroll" data-go="#scroll">
+        </div>
+      </div>
+
+      <div class="work w-piano">
+        <p class="cap"><span class="label">Selected works:</span> <a href="#piano" data-work="piano">TikTok piano, <span class="yr">2024</span></a></p>
+        <div class="shots"><img src="img/piano.jpg" alt="A keyboard on a metal stand wired to a trolley of equipment" data-work="piano" data-go="#piano"></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="picks">
+      <p class="indent photos"><a href="#sludge" data-work="sludge">Photos 1</a>, <a href="#facecard" data-work="facecard">Photos 2</a>, <a href="#filter" data-work="filter">Photos 3</a></p>
+    </div>
+
+    <hr>
+
+    <div class="extra-wrap"><div class="extra">
+      <p class="note">Nietzsche for ppl with a short attention span &lt;3, Instagram filter</p>
+      <img src="img/extra.gif" alt="Instagram filter showing a Nietzsche book">
+    </div></div>
+
+    <hr>
+
+    <div class="socials">
+      <p><span class="label">Social Media:</span></p>
+      <ul>
+        <li><a href="https://www.instagram.com/myceli.a/" target="_blank" rel="noopener">@myceli.a</a></li>
+        <li><a href="https://www.tiktok.com/@trishasayinglike" target="_blank" rel="noopener">@trishasayinglike</a></li>
+        <li><a href="https://www.instagram.com/_______________maja/" target="_blank" rel="noopener">@_______________maja</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="project" id="project">
+    <div class="stripe">
+      <a class="request left" id="req-left" hidden>Request the film</a>
+      <a class="request right" id="req-right" hidden>Request the film</a>
+      <p class="back"><a href="#">← back</a></p>
+      <h1 id="p-title"></h1>
+      <p class="credit" id="p-credit"></p>
+      <p class="featured" id="p-featured"></p>
+      <div class="gallery" id="p-gallery"></div>
+      <div class="videos" id="p-videos"></div>
+      <div class="desc" id="p-desc"></div>
+      <div class="tail" id="p-tail"></div>
+      <p class="todo" id="p-todo">More images of this project go here.</p>
+      <div class="notes" id="p-notes"></div>
+    </div>
+  </div>
+</div>
+
+<div class="tip" id="tip" aria-hidden="true"><img class="thumb" id="tip-img" alt=""><div class="words"><b id="tip-title"></b><span id="tip-text"></span></div></div>
+
+<script>
+  const WORKS = {
+    eater: {
+      title: 'What Life Feels Like When You Have a Real Eater',
+      meta: '13’ video, 2026',
+      request: true,
+      images: ['img/eater_still.gif'],
+      thumb: 'img/eater_thumb.jpg',
+      narrow: true,
+      tail: ['img/eater_room1.jpg', 'img/eater_room2.jpg'],
+      short: 'A manufactured scroll: a short film made entirely from vertical videos, shot with paid actors, designed to be indistinguishable from a real TikTok For You Page.',
+      full: [
+        'What Life Feels Like When You Have a Real Eater is a manufactured scroll. A short film made entirely from vertical videos, shot with paid actors, designed to be indistinguishable from a real TikTok For You Page.',
+        'The film does not tell a story in the traditional sense. It simulates falling into a TikTok rabbit hole about disordered eating. Thinspo content, ads, reaction videos, self-help, mukbangs, all sitting next to each other in the same feed. As the scroll goes deeper, something starts to emerge. Girls in near-identical outfits keep appearing, filming mukbang content from what looks like the same house and the same account. Across reddit threads and stitched responses, a name starts coming up: The Munch House. A content house that offers free food and housing to young women trying to “heal their relationship with food.”',
+        'In return, they produce mukbang content for an online audience. Whether it is real, a rumor, or a creepypasta is never resolved.',
+        'The narrative of exploitative content houses emerged from a specific tension at the core of platform culture: Social media is still often framed through the idea of “user-generation”, where content is produced organically, as an expression of individual creativity or free will. But as social media has matured into a fully monetized attention economy, that assumption has come under pressure.',
+        'In order to capture the value of constant content production, more structured forms of labor organization like content houses have emerged and these structures are often framed as spaces of opportunity and care. Living together, sharing resources, and receiving guidance are positioned as support systems for young creators entering the platform economy. At the same time, this framing makes it harder to separate care from extraction.',
+        '“The Munch House,” extends this logic into a fictional extreme and articulates something about our broader relationship to social media itself: a space we experience as connection, community, and self-expression, but which is also continuously harvesting that experience as data-points for advertising purposes.',
+        'Rather than only depicting content houses as a subject, the project also adopts their logic. Over thirty creators were hired and paid through platforms like Fiverr to produce videos for the film. So what you are watching is not just a question of whether The Munch House is real. It is also a question of whether any of these videos are.',
+        'And underneath that: is it the artist, The Munch House, or social media itself that is running the content house, the place where care and production have become completely indistinguishable?'
+      ]
+    },
+    sock: {
+      title: '“Sock the Bushwick Enby” – podcast episode',
+      images: ['img/sock.jpg'],
+      short: 'Maja Mikulska (The Hmm) and Anielek Niemyjski (Institute of Network Cultures) are joined by Maya B. Kronic to discuss all things Sock.',
+      full: [
+        'In this episode, Maja Mikulska from The Hmm and Anielek Niemyjski from the Institute of Network Cultures are joined by Maya B. Kronic – co-author of Cute Accelerationism and Head of Research and Development at Urbanomic – to discuss all things Sock. From Bushwick enbies to memes and fancy foot cover-ups, the conversation focuses on what it means to explore gender nonconformity, both online and offline.'
+      ]
+    },
+    scroll: {
+      title: 'The Testament of the Flickering Scroll',
+      meta: 'Handmade collection of flip books, 2025',
+      credit: [
+        { text: 'collaborative project with ' },
+        { text: 'August Kaasa Sundgaard', href: 'https://www.instagram.com/au.dust/' },
+        { text: ' and ' },
+        { text: 'Meabh O’Halloran', href: 'https://www.instagram.com/ladyslimkeith/' }
+      ],
+      images: ['img/scroll_a.gif', 'img/scroll_b.gif'],
+      thumb: 'img/scroll_thumb.jpg',
+      short: 'A digital scroll through TikTok made physical in the form of flip books.',
+      pair: { before: -1, images: ['img/scroll_shelf.jpg', 'img/scroll_table.jpg'] },
+      featured: { text: 'Cursor mag', href: 'https://cursormag.net/flickeringscrolls' },
+      italicLast: true,
+      full: [
+        "Insatiable. Technology had become a sun around which all human life orbited, pulling everyone into its gravitational field. The draw towards scrolling became all too strong.",
+        "While computation was once thought of as something separate, confined to discrete machines and local networks, it has since metastasized into the stack.[1] This totalizing planetary infrastructure stretched from buried fiber optic cables, mobile apps, to orbital satellites, embedding itself into every facet of existence. For those in power, each new server added was a step towards an era of unlimited human potential. A world of interconnected minds, ideas, and systems, all functioning as a singular brain. This was the age of Accelerated Techno-Optimism. In the 21st century, a deplorable cabal of tech magnates rose, led by figures like Thiel, Musk, and Zuck, who had turned data into the lifeblood of modern civilization. With greed-induced optimism, they proclaimed the coming of a “Singularity[2],” a point at which technological growth would become uncontrollable and irreversible. Projects like AI-driven megacities[3], space colonies[4], and cybernetic brain implants[5] became the hallmarks of their era, promising to eradicate inefficiency and elevate human potential.",
+        "The number of data centres grew exponentially, and the temperatures in the Cloud rose. The hunger of the centres began to rival the needs of nations. Rivers were drained, forests cleared, and the air thickened with heat as data centers devoured the planet’s resources.",
+        "The first tremor of collapse came in the form of the Microsoft meltdown of 2024.[6] Eight and a half million systems went dark. A financial toll of $10 billion, as screens across the globe turned a haunting Pantone 2995 C – “blue screens of death.” It was like a looming tsunami. Panic erupted, most notably at airports, where employees, now cut off from the digital lifeblood, had to revert to pen and paper to issue tickets. The failure seemed to attack the architecture of a society built on seamless, automated systems.",
+        "The second tremor was political. The U.S. government’s TikTok ban, set for January 19, 2025, sent users into a hysteria. In the days leading up to it, they scrambled to preserve their lives – archiving favorite videos, rallying in protest, and, when resistance proved futile, saying their final goodbyes. When the ban finally hit, millions were uprooted, giving rise to a wave of desperate “TikTok refugees”. Meanwhile, outside the U.S., opportunists seized the moment. Hours of scrolling footage were sold at outrageous prices, and black-market phones preloaded with TikTok clips became luxury items.[7] The ban was quickly dubbed “our age’s Prohibition”. Though the ban was driven more by fears of Chinese espionage than any genuine desire to save humanity (and despite lasting only a few hours), it proved something important: escaping the platform was possible, and there was, in fact, an alternative—a world beyond the scroll.",
+        "The backlash began as murmurs of dissent. Activists and environmentalists were dismissed as “neo-Luddites[8],” unwilling to embrace progress. Yet, as droughts intensified, oceans surged, and technofeudalism[9] tightened its grip, dissent grew into rebellion. Optimism had turned to carnage as our overindulgence imploded. In the shadow of these collapses, humanity turned against the digital monoliths. Screens, once the omnipresent windows into life itself, became symbols of oppression. The data centres were torn down[10], “relics of innovation” smashed and burned in uprisings that swept across continents. The tech oligarchs, once worshipped as visionaries, were cast as villains in the new narrative, stripped of their utopian promises and left scrambling for refuge: Musk went for the stars; Zuck clutched his Meta Quest VR headset and escaped to his million dollar doomsday bunker in Hawaii[11]; Thiel retreated into his cryonics chamber[12]; Sam Altman, using the last computing power of the 21st century, asked ChatGPT “How to survive the apocalypse?”; But they all learned too late that no prompt could undo the damage, no algorithm could outthink collapse, and no amount of wealth could buy a way back to the world they had helped destroy. Sanctuary was found in the total eradication of that which had led to this collapse. The urge to scroll, however, remained…",
+        "As the ashes of the digital age settled, civilization regressed into an austere primitivism, rejecting technology in all its forms. Digital memories were erased, and screens were dismantled. Yet, amid this purge, a secretive group of archivists risked everything to preserve fragments of what had been. Inspired by an instinctual belief that future generations might one day understand and learn from the past, they undertook an unlikely mission: to preserve TikToks. To evade the watchful eyes of the new regime, they transcribed them into biblesque books, condensing the infinite sprawl of shitposting into pages bound in ink and paper. The Codices carried within them the spirit of the digital epoch, capturing its absurdity, beauty, and excess.",
+        "Yet the Codices were not mere replicas of the original TikToks. Where the digital videos had been ephemeral, algorithmically curated, and infinitely scrollable, the Flipbooks were static, tactile, and finite. Gone were the predatory loops of engagement, the doomscroll, the chaos of comment sections. In their place: sequences frozen in time, dances flattened to ink strokes, viral trends fossilized like insects in amber. They transformed disposable content into something ritualized, intentional, even sacred.",
+        "One of the flipbooks, The Scroll, animated two TikTok “For You” pages: one filled with masculine “Looksmaxxing” content, the other with the feminine “Facecard” trend. Together, they captured the scroll as a gendered behavioral training ground, where the most absurd behaviors were learned, repeated, and normalized. Boys were taught to channel their supposed rationality and latent violence through tracking the angle of their canthal tilt, mewing for their lives, and smashing their own jawbones in pursuit of the ideal gonial angle. Girls, absorbing the platform’s logic, learned that beauty is capital, and that capital must be performed: in practiced head tilts, glossed lips, and smizing eyes.",
+        "Another book, Savage/Cannibal, preserved two TikToks from the early days of the COVID-19 pandemic: Charli D’Amelio’s dance to Kesha’s “Cannibal” and Addison Rae’s to Megan Thee Stallion’s “Savage.” Both dances, viral sensations at the time, embodied a culture of extraction, spectacle, and consumption that had fueled the system’s collapse. In the videos, Charli and Addie were “throwing it back” and “eating it up” in the intimacy of their suburban American bedrooms. They smiled into the camera, unaware that millions – strangers, brands, and algorithms were watching. With the flipbook, the archivists wanted to capture how smartphones had dissolved the line between private and public and how platforms had weaponized girlhood to turn carefree youth into performers for profit.",
+        "Millennia later, long after the screenless societies had forgotten the techno-obsession of the past, the Flipbook Codices were unearthed. To the discoverers, they were baffling artifacts. A dance of images moving in alien ways. As they studied these relics, they pieced together the fragments of what they were seeing, rekindling questions of what humanity had gained and lost in the name of progress. A secret obsession began. Replication and ritualization followed, the books becoming the foundation for new rites and iconography. And in time, the flipbooks were enshrined as sacred scripture, known collectively today as The Testament of the Flickering Scrolls.",
+        "“Testament of the Flickering Scrolls” is a TikTok archiving project by Maja Mikulska, Meabh O’Halloran, and August Sundgaard. Framed within a speculative post-apocalyptic scenario where civilization has rejected contemporary technology, we position ourselves as monastics, preserving remnants of the past (now present) civilization by transcribing TikToks into flipbooks. Through this process, the project seeks to reflect on contemporary knowledge production, the materiality of the virtual, and the question: what went wrong?"
+],
+      notes: [
+        {
+                "n": 1,
+                "parts": [
+                        {
+                                "t": "Bratton, Benjamin H. "
+                        },
+                        {
+                                "t": "The Stack: On Software and Sovereignty",
+                                "h": "https://mitpress.mit.edu/9780262529174/the-stack/"
+                        },
+                        {
+                                "t": ". MIT Press, 2016."
+                        }
+                ]
+        },
+        {
+                "n": 2,
+                "parts": [
+                        {
+                                "t": "“"
+                        },
+                        {
+                                "t": "Technological Singularity",
+                                "h": "https://en.wikipedia.org/wiki/Technological_singularity"
+                        },
+                        {
+                                "t": ",” Wikipedia."
+                        }
+                ]
+        },
+        {
+                "n": 3,
+                "parts": [
+                        {
+                                "t": "“"
+                        },
+                        {
+                                "t": "How Saudi Arabia’s AI-Powered NEOM Megacity Will Actually Be Built",
+                                "h": "https://wired.me/technology/how-saudi-arabias-ai-powered-neom-megacity-will-actually-be-built/"
+                        },
+                        {
+                                "t": ".” WIRED Middle East, April 21, 2021."
+                        }
+                ]
+        },
+        {
+                "n": 4,
+                "parts": [
+                        {
+                                "t": "“"
+                        },
+                        {
+                                "t": "SpaceX Mars Colonization Program",
+                                "h": "https://en.wikipedia.org/wiki/SpaceX_Mars_colonization_program"
+                        },
+                        {
+                                "t": ",” Wikipedia."
+                        }
+                ]
+        },
+        {
+                "n": 5,
+                "parts": [
+                        {
+                                "t": "“"
+                        },
+                        {
+                                "t": "Neuralink",
+                                "h": "https://en.wikipedia.org/wiki/Neuralink"
+                        },
+                        {
+                                "t": ",” Wikipedia."
+                        }
+                ]
+        },
+        {
+                "n": 6,
+                "parts": [
+                        {
+                                "t": "“"
+                        },
+                        {
+                                "t": "2024 CrowdStrike-related IT outages",
+                                "h": "https://en.wikipedia.org/wiki/2024_CrowdStrike-related_IT_outages"
+                        },
+                        {
+                                "t": ",” Wikipedia. Accessed February 8, 2025."
+                        }
+                ]
+        },
+        {
+                "n": 7,
+                "parts": [
+                        {
+                                "t": "Yilek, Caitlin. “"
+                        },
+                        {
+                                "t": "Preloaded Phones with TikTok Are Being Sold Online, Despite Potential U.S. Ban, Trump’s Opposition",
+                                "h": "https://www.cbsnews.com/news/tiktok-ban-phones-devices-preloaded-ebay-trump/"
+                        },
+                        {
+                                "t": ".” CBS News, April 25, 2024."
+                        }
+                ]
+        },
+        {
+                "n": 8,
+                "parts": [
+                        {
+                                "t": "“"
+                        },
+                        {
+                                "t": "Neo-Luddism",
+                                "h": "https://en.wikipedia.org/wiki/Neo-Luddism"
+                        },
+                        {
+                                "t": ",” Wikipedia. Accessed February 8, 2025."
+                        }
+                ]
+        },
+        {
+                "n": 9,
+                "parts": [
+                        {
+                                "t": "Technofeudalism describes a system where major tech companies extract value from users’ unpaid labor, data, and attention, mirroring how feudal lords once extracted labor from serfs. Varoufakis, Y. "
+                        },
+                        {
+                                "t": "Technofeudalism: What Killed Capitalism",
+                                "h": "https://www.penguin.co.uk/books/451795/technofeudalism-by-varoufakis-yanis/9781529926095"
+                        },
+                        {
+                                "t": ". Melville House, 2024."
+                        }
+                ]
+        },
+        {
+                "n": 10,
+                "parts": [
+                        {
+                                "t": "Swinhoe, Dan. “"
+                        },
+                        {
+                                "t": "Data Center in Columbus, Ohio Evacuated After Bomb Scare Hoax",
+                                "h": "https://www.datacenterdynamics.com/en/news/data-center-in-columbus-ohio-evacuated-after-bomb-scare-hoax/"
+                        },
+                        {
+                                "t": ".” Data Center Dynamics, October 19, 2021."
+                        }
+                ]
+        },
+        {
+                "n": 11,
+                "parts": [
+                        {
+                                "t": "Scrimgeour, Guthrie. “"
+                        },
+                        {
+                                "t": "Inside Mark Zuckerberg’s Top-Secret Hawaii Compound",
+                                "h": "https://www.wired.com/story/mark-zuckerberg-inside-hawaii-compound/"
+                        },
+                        {
+                                "t": ".” WIRED, December 13, 2023."
+                        }
+                ]
+        },
+        {
+                "n": 12,
+                "parts": [
+                        {
+                                "t": "Mollman, Steve. “"
+                        },
+                        {
+                                "t": "Peter Thiel’s Quest for Immortality",
+                                "h": "https://fortune.com/2023/05/04/peter-thiel-cryonics-cryogenically-frozen-death-anti-aging-health/"
+                        },
+                        {
+                                "t": ".” Fortune, May 4, 2023."
+                        }
+                ]
+        }
+]
+    },
+    piano: {
+      title: 'TikTok piano',
+      meta: 'Interactive installation, 2025',
+      images: ['img/piano_full.jpg'],
+      videos: ['img/piano_v2.mp4', 'img/piano_v1.mp4'],
+      videosCentered: true,
+      imagesAfterDesc: true,
+      thumb: 'img/piano_thumb.jpg',
+      short: 'A musical instrument where you can play TikToks instead of notes.',
+      full: [
+        'An instrument for playing TikToks. Each key on the MIDI board triggers a clip instead of a note, and the sliders glitch the image while it plays. The idea was to treat short-form content as raw material, something to compose with rather than scroll through, and to give it a physical body through keys and faders.',
+        'It was also a way of using viral, brainrotting sounds and trying to make a soundscape out of them. Many have tried. Someone is yet to succeed.'
+      ]
+    },
+    sludge:   { title: 'Photos 1', images: [], short: '', full: [] },
+    facecard: { title: 'Photos 2', images: [], short: '', full: [] },
+    filter:   { title: 'Photos 3', images: [], short: '', full: [] }
+  };
+
+  /* Hover descriptions */
+  const tip = document.getElementById('tip'), tipTitle = document.getElementById('tip-title'),
+        tipText = document.getElementById('tip-text'), tipImg = document.getElementById('tip-img');
+  let hovered = null;
+  function place(e) {
+    const pad = 16, w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = e.clientX + 22, y = e.clientY + 18;
+    if (x + w + pad > innerWidth) x = Math.max(pad, e.clientX - w - 22);
+    if (y + h + pad > innerHeight) y = Math.max(pad, innerHeight - h - pad);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+  document.querySelectorAll('[data-work]').forEach(el => {
+    el.addEventListener('mouseenter', e => {
+      const w = WORKS[el.dataset.work];
+      if (!w || !w.short) return;
+      hovered = el; tipTitle.textContent = w.title; tipText.textContent = w.short;
+      const thumb = w.thumb || w.images[0];
+      if (thumb) { tipImg.src = thumb; tipImg.hidden = false; } else { tipImg.hidden = true; }
+      place(e); tip.classList.add('on');
+    });
+    el.addEventListener('mousemove', e => { if (hovered === el) place(e); });
+    el.addEventListener('mouseleave', () => { hovered = null; tip.classList.remove('on'); });
+  });
+
+  /* Images open the project page too */
+  document.querySelectorAll('[data-go]').forEach(img => {
+    img.addEventListener('click', () => {
+      const go = img.dataset.go;
+      if (go.startsWith('#')) location.hash = go; else open(go, '_blank', 'noopener');
+    });
+  });
+
+  /* Project pages */
+  const home = document.getElementById('home'), project = document.getElementById('project');
+  const pTitle = document.getElementById('p-title'), pDesc = document.getElementById('p-desc'),
+        pGallery = document.getElementById('p-gallery'), pTodo = document.getElementById('p-todo'),
+        pNotes = document.getElementById('p-notes'), pFeatured = document.getElementById('p-featured'),
+        reqLeft = document.getElementById('req-left'), reqRight = document.getElementById('req-right'),
+        pCredit = document.getElementById('p-credit'), pVideos = document.getElementById('p-videos'),
+        pTail = document.getElementById('p-tail');
+
+  function route() {
+    const key = location.hash.replace('#', '');
+    const w = WORKS[key];
+    tip.classList.remove('on');
+    if (!w) { home.classList.remove('off'); project.classList.remove('on'); return; }
+    home.classList.add('off'); project.classList.add('on');
+    pTitle.innerHTML = '';
+    const tt = document.createElement('span'); tt.className = 't'; tt.textContent = w.title;
+    pTitle.appendChild(tt);
+    if (w.meta) { const mm = document.createElement('span'); mm.className = 'm'; mm.textContent = ' - ' + w.meta; pTitle.appendChild(mm); }
+    pDesc.innerHTML = '';
+    const pairAt = w.pair ? (w.pair.before < 0 ? w.full.length + w.pair.before : w.pair.before) : -1;
+    w.full.forEach((t, i) => {
+      if (i === pairAt) {
+        const row = document.createElement('div'); row.className = 'pair';
+        w.pair.images.forEach(src => { const im = document.createElement('img'); im.src = src; im.alt = w.title; row.appendChild(im); });
+        pDesc.appendChild(row);
+      }
+      const p = document.createElement('p');
+      t.split(/\[(\d+)\]/).forEach((chunk, k) => {
+        if (k % 2 === 1) {
+          const sup = document.createElement('sup');
+          const a = document.createElement('a');
+          a.href = '#note-' + chunk; a.textContent = chunk;
+          sup.appendChild(a); p.appendChild(sup);
+        } else if (chunk) {
+          p.appendChild(document.createTextNode(chunk));
+        }
+      });
+      if (w.italicLast && i === w.full.length - 1) p.className = 'italic';
+      pDesc.appendChild(p);
+    });
+    if (w.link) {
+      const p = document.createElement('p');
+      const a = document.createElement('a');
+      a.href = w.link.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = w.link.text;
+      p.appendChild(a); pDesc.appendChild(p);
+    }
+    pGallery.innerHTML = '';
+    pGallery.className = w.narrow ? 'gallery narrow' : 'gallery';
+    // photo before or after the description
+    const stripe = pGallery.parentElement;
+    if (w.imagesAfterDesc) stripe.insertBefore(pGallery, pTodo);
+    else stripe.insertBefore(pGallery, pVideos);
+    w.images.forEach(src => { const i = document.createElement('img'); i.src = src; i.alt = w.title; pGallery.appendChild(i); });
+    pTail.innerHTML = '';
+    (w.tail || []).forEach(src => { const i = document.createElement('img'); i.src = src; i.alt = w.title; pTail.appendChild(i); });
+    pVideos.innerHTML = '';
+    pVideos.className = w.videosCentered ? 'videos centered' : 'videos';
+    (w.videos || []).forEach(src => {
+      const v = document.createElement('video');
+      v.src = src; v.controls = true; v.playsInline = true; v.preload = 'metadata';
+      pVideos.appendChild(v);
+    });
+    pTodo.textContent = w.images.length ? 'More images of this project go here.' : 'Images of this project go here.';
+    pNotes.innerHTML = '';
+    (w.notes || []).forEach(note => {
+      const p = document.createElement('p');
+      p.id = 'note-' + note.n;
+      p.appendChild(document.createTextNode('[' + note.n + '] '));
+      note.parts.forEach(part => {
+        if (part.h) {
+          const a = document.createElement('a');
+          a.href = part.h; a.target = '_blank'; a.rel = 'noopener'; a.textContent = part.t;
+          p.appendChild(a);
+        } else {
+          p.appendChild(document.createTextNode(part.t));
+        }
+      });
+      pNotes.appendChild(p);
+    });
+    const mail = 'mailto:majamikulskaaa@gmail.com?subject=' +
+      encodeURIComponent('Request to view: ' + w.title) + '&body=' +
+      encodeURIComponent('Hi Maja,\n\nI would like to watch your short film “' + w.title + '”. Could you send me a link?\n\nThank you,\n');
+    [reqLeft, reqRight].forEach(el => { el.hidden = !w.request; el.href = mail; });
+    pCredit.innerHTML = '';
+    (w.credit || []).forEach(part => {
+      if (part.href) {
+        const a = document.createElement('a');
+        a.href = part.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = part.text;
+        pCredit.appendChild(a);
+      } else {
+        pCredit.appendChild(document.createTextNode(part.text));
+      }
+    });
+    pFeatured.innerHTML = '';
+    if (w.featured) {
+      pFeatured.appendChild(document.createTextNode('Featured in: '));
+      const a = document.createElement('a');
+      a.href = w.featured.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = w.featured.text;
+      pFeatured.appendChild(a);
+    }
+    scrollTo(0, 0);
+  }
+  addEventListener('hashchange', route);
+  route();
+</script>
+
+</body>
+</html>
