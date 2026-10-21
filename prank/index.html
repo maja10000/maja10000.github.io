@@ -6,10 +6,10 @@
 <title>Prank Agency, Inc</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Limelight&display=swap">
 <style>
   :root {
-    --ground: #E9E8E6;
+    --ground: #8F8D8A;
     --ink: #121212;
     --bar: #0B0B0B;
     --bar-text: #FFFFFF;
@@ -45,8 +45,14 @@
   }
 
   /* ink printed into the paper rather than drawn over it */
-  header, .manifesto, .offers {
+  header, .manifesto {
     color: #2A1C2A;
+    mix-blend-mode: multiply;
+    filter: blur(.22px);
+    text-shadow: 0 0 .5px currentColor, .3px .25px .7px rgba(60,38,60,.3);
+  }
+  .offers {
+    color: #241624;
     mix-blend-mode: multiply;
     filter: blur(.22px);
     text-shadow: 0 0 .5px currentColor, .3px .25px .7px rgba(60,38,60,.3);
@@ -92,17 +98,26 @@
 
   /* the three requests */
   .offers {
-    margin-top: clamp(90px, 20vh, 240px);
+    margin-top: clamp(22px, 3.5vw, 40px);
     padding: 0 clamp(16px, 4vw, 40px) 70px;
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: clamp(18px, 3vw, 44px);
   }
   .offers p { margin: 0; font: 400 clamp(13.5px, 1.5vw, 16px)/1.4 "Archivo";
               text-align: justify; hyphens: auto; }
-  .offers .lead { font-weight: 600; letter-spacing: .005em; }
+  .offers .lead { font-weight: 700; letter-spacing: -.005em; }
+  .offers .cap {
+    font-family: "Limelight", "Archivo", sans-serif;
+    font-weight: 400;
+    font-size: 1.5em;
+    line-height: .9;
+    letter-spacing: .01em;
+    vertical-align: -.055em;
+    margin-right: .01em;
+  }
 
   @media (max-width: 680px) {
-    .offers { grid-template-columns: 1fr; gap: 26px; margin-top: 70px; }
+    .offers { grid-template-columns: 1fr; gap: 26px; margin-top: 26px; }
     .offers p { text-align: left; hyphens: manual; }
   }
 
@@ -131,15 +146,10 @@
     </div>
   </div>
 
-  <section class="manifesto">
-    <h2>Our manifesto</h2>
-    <p class="claims">Pranks can be seen as erotic acts <span class="dot">•</span> Pranks can be bought, shared, spread and copied <span class="dot">•</span> Pranks can be rehearsed <span class="dot">•</span> Pranks can be refused <span class="dot">•</span> Pranks can be bought, shared, spread and copied <span class="dot">•</span> Pranks can be returned to their owner <span class="dot">•</span></p>
-  </section>
-
   <section class="offers">
-    <p><span class="lead">Request prank consultancy</span> where we can give you tips, tricks, ideas and references for your prank. Consult your prank with us if you are not sure about the impact of it, if you don’t think your idea is creative enough or if you are doubting if this prank is funny enough</p>
-    <p><span class="lead">Request a digital prank</span> where we carefully craft a personalised digital prank for your victim. These pranks should not require any physical intervention from us. Give us your idea or request an idea from us.</p>
-    <p><span class="lead">Request a personalised prank</span> just tell us about who and why you want to prank and we take it from there. Maybe we do it physically, maybe digitally, maybe its a prank call, or more.</p>
+    <p><span class="lead"><span class="cap">R</span>equest prank consultancy</span> where we can give you tips, tricks, ideas and references for your prank. Consult your prank with us if you are not sure about the impact of it, if you don’t think your idea is creative enough or if you are doubting if this prank is funny enough</p>
+    <p><span class="lead"><span class="cap">R</span>equest a digital prank</span> where we carefully craft a personalised digital prank for your victim. These pranks should not require any physical intervention from us. Give us your idea or request an idea from us.</p>
+    <p><span class="lead"><span class="cap">R</span>equest a personalised prank</span> just tell us about who and why you want to prank and we take it from there. Maybe we do it physically, maybe digitally, maybe its a prank call, or more.</p>
   </section>
 </div>
 
