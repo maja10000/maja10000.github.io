@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prank Agency, Inc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+  :root {
+    --ground: #E9E8E6;
+    --ink: #121212;
+    --bar: #0B0B0B;
+    --bar-text: #FFFFFF;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font: 15px/1.4 "Archivo", "Helvetica Neue", Arial, sans-serif;
+    padding-inline: clamp(0px, 4vw, 120px);
+  }
+
+  /* the purple column, grey either side */
+  .column {
+    max-width: 810px;
+    min-height: 100%;
+    margin-inline: auto;
+    background: url("img/purple.jpg") top center / 100% auto repeat-y;
+    padding-bottom: 140px;
+  }
+
+  header { text-align: center; padding: 26px 16px 0; }
+  .write { font: 600 clamp(13px, 1.7vw, 16px)/1.2 "Archivo"; letter-spacing: .02em; text-transform: uppercase; }
+  h1 { margin: 8px 0 0; font: 700 clamp(24px, 4.3vw, 36px)/1.05 "Archivo"; letter-spacing: .005em; text-transform: uppercase; }
+  .where { margin: 8px 0 0; font: 600 clamp(12px, 1.9vw, 17px)/1.2 "Archivo"; letter-spacing: .01em; text-transform: uppercase; }
+  .where .dot { padding-inline: 10px; }
+
+  /* one unbroken black band, its text looping sideways */
+  .band {
+    margin-top: 18px;
+    background: var(--bar);
+    overflow: hidden;
+    padding-block: 9px 11px;
+    user-select: none;
+  }
+  .band .track {
+    display: flex; width: max-content;
+    animation: slide 26s linear infinite;
+  }
+  .band .run {
+    display: flex; flex-shrink: 0;
+    color: var(--bar-text);
+    font: 600 clamp(13px, 1.9vw, 19px)/1.1 "Archivo";
+    letter-spacing: .01em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .band .run span { padding-inline: clamp(18px, 3vw, 34px); }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .band .track { animation: none; } }
+
+  @media (max-width: 560px) {
+    body { padding-inline: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="column">
+  <header>
+    <p class="write">Write for infromation</p>
+    <h1>Prank Agency, Inc</h1>
+    <p class="where">Address withheld for legal reasons <span class="dot">•</span> All over the world</p>
+  </header>
+
+  <div class="band" aria-label="Prank calls, ideas, consultancy, writing, jester art">
+    <div class="track">
+      <div class="run" aria-hidden="true">
+        <span>Prank calls</span><span>Ideas</span><span>Consultancy</span><span>Writing</span><span>Jester art</span>
+      </div>
+      <div class="run" aria-hidden="true">
+        <span>Prank calls</span><span>Ideas</span><span>Consultancy</span><span>Writing</span><span>Jester art</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
