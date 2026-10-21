@@ -27,11 +27,29 @@
 
   /* the purple column, grey either side */
   .column {
+    position: relative; isolation: isolate;
     max-width: 810px;
     min-height: 100%;
     margin-inline: auto;
     background: url("img/purple.jpg") top center / 100% auto repeat-y;
     padding-bottom: 140px;
+  }
+  /* the scan sits on top of everything, so type and paper share one grain */
+  .column::after {
+    content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, rgba(48,30,48,.055) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(48,30,48,.05) 0 1px, transparent 1px 4px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .28 0 0 0 0 .18 0 0 0 0 .28 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply; opacity: .5;
+  }
+
+  /* ink printed into the paper rather than drawn over it */
+  header, .manifesto, .offers {
+    color: #2A1C2A;
+    mix-blend-mode: multiply;
+    filter: blur(.22px);
+    text-shadow: 0 0 .5px currentColor, .3px .25px .7px rgba(60,38,60,.3);
   }
 
   header { text-align: center; padding: 26px 16px 0; }
@@ -43,10 +61,12 @@
   /* one unbroken black band, its text looping sideways */
   .band {
     margin-top: 18px;
-    background: var(--bar);
+    background: #191119;
     overflow: hidden;
     padding-block: 9px 11px;
     user-select: none;
+    mix-blend-mode: multiply;      /* the bar takes the paper's grain */
+    filter: blur(.2px);
   }
   .band .track {
     display: flex; width: max-content;
@@ -54,7 +74,7 @@
   }
   .band .run {
     display: flex; flex-shrink: 0;
-    color: var(--bar-text);
+    color: #FFFFFF;                 /* multiplied away, so the paper shows through the letters */
     font: 600 clamp(13px, 1.9vw, 19px)/1.1 "Archivo";
     letter-spacing: .01em; text-transform: uppercase;
     white-space: nowrap;
@@ -62,6 +82,29 @@
   .band .run span { padding-inline: clamp(18px, 3vw, 34px); }
   @keyframes slide { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .band .track { animation: none; } }
+
+  /* manifesto */
+  .manifesto { padding: 26px clamp(16px, 4vw, 40px) 0; text-align: center; }
+  .manifesto h2 { margin: 0; font: 400 clamp(17px, 2.4vw, 23px)/1.2 "Archivo"; letter-spacing: .01em; text-transform: uppercase; }
+  .manifesto .claims { margin: 22px auto 0; max-width: 74ch;
+                       font: 400 clamp(14px, 2vw, 19px)/1.55 "Archivo"; }
+  .manifesto .claims .dot { padding-inline: 8px; }
+
+  /* the three requests */
+  .offers {
+    margin-top: clamp(90px, 20vh, 240px);
+    padding: 0 clamp(16px, 4vw, 40px) 70px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(18px, 3vw, 44px);
+  }
+  .offers p { margin: 0; font: 400 clamp(13.5px, 1.5vw, 16px)/1.4 "Archivo";
+              text-align: justify; hyphens: auto; }
+  .offers .lead { font-weight: 600; letter-spacing: .005em; }
+
+  @media (max-width: 680px) {
+    .offers { grid-template-columns: 1fr; gap: 26px; margin-top: 70px; }
+    .offers p { text-align: left; hyphens: manual; }
+  }
 
   @media (max-width: 560px) {
     body { padding-inline: 0; }
@@ -87,6 +130,17 @@
       </div>
     </div>
   </div>
+
+  <section class="manifesto">
+    <h2>Our manifesto</h2>
+    <p class="claims">Pranks can be seen as erotic acts <span class="dot">•</span> Pranks can be bought, shared, spread and copied <span class="dot">•</span> Pranks can be rehearsed <span class="dot">•</span> Pranks can be refused <span class="dot">•</span> Pranks can be bought, shared, spread and copied <span class="dot">•</span> Pranks can be returned to their owner <span class="dot">•</span></p>
+  </section>
+
+  <section class="offers">
+    <p><span class="lead">Request prank consultancy</span> where we can give you tips, tricks, ideas and references for your prank. Consult your prank with us if you are not sure about the impact of it, if you don’t think your idea is creative enough or if you are doubting if this prank is funny enough</p>
+    <p><span class="lead">Request a digital prank</span> where we carefully craft a personalised digital prank for your victim. These pranks should not require any physical intervention from us. Give us your idea or request an idea from us.</p>
+    <p><span class="lead">Request a personalised prank</span> just tell us about who and why you want to prank and we take it from there. Maybe we do it physically, maybe digitally, maybe its a prank call, or more.</p>
+  </section>
 </div>
 
 </body>
