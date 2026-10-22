@@ -44,6 +44,17 @@
     mix-blend-mode: multiply; opacity: .5;
   }
 
+  /* wireframe dome pressed into the paper */
+  .dome {
+    position: absolute; z-index: 2;
+    top: 0.5%; right: 1.5%;
+    width: 29%; aspect-ratio: 1 / 1;
+    background: url("img/dome.png") center / contain no-repeat;
+    mix-blend-mode: soft-light;
+    opacity: 1;
+    pointer-events: none;
+  }
+
   /* ink printed into the paper rather than drawn over it */
   header, .manifesto {
     color: #2A1C2A;
@@ -89,6 +100,32 @@
   @keyframes slide { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .band .track { animation: none; } }
 
+  /* the prank-call gif, framed like a deco advert */
+  .framewrap {
+    max-width: 660px;
+    margin: clamp(6px, 1.4vw, 14px) auto 0;
+    padding-inline: clamp(16px, 4vw, 40px);
+  }
+  .frame {
+    position: relative;
+    display: flow-root;
+    margin-top: 21%;
+    border: 1.8px solid #241624;
+    border-top: none;
+    padding-bottom: clamp(12px, 2vw, 22px);
+    color: #241624;
+    mix-blend-mode: multiply;
+    filter: blur(.2px);
+  }
+  .frame::before, .frame::after {
+    content: ""; position: absolute; top: -1.8px;
+    height: 1.8px; width: 14.4%;
+    background: currentColor;
+  }
+  .frame::before { left: -1.8px; }
+  .frame::after  { right: -1.8px; }
+  .frame img { display: block; width: 78%; margin: -20% auto 0; height: auto; }
+
   /* manifesto */
   .manifesto { padding: 26px clamp(16px, 4vw, 40px) 0; text-align: center; }
   .manifesto h2 { margin: 0; font: 400 clamp(17px, 2.4vw, 23px)/1.2 "Archivo"; letter-spacing: .01em; text-transform: uppercase; }
@@ -102,6 +139,7 @@
     padding: 0 clamp(16px, 4vw, 40px) 70px;
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: clamp(18px, 3vw, 44px);
+    padding-bottom: 36px;
   }
   .offers p { margin: 0; font: 400 clamp(13.5px, 1.5vw, 16px)/1.4 "Archivo";
               text-align: justify; hyphens: auto; }
@@ -136,6 +174,8 @@
     <p class="where">Address withheld for legal reasons <span class="dot">•</span> All over the world</p>
   </header>
 
+  <div class="dome" aria-hidden="true"></div>
+
   <div class="band" aria-label="Prank calls, ideas, consultancy, writing, jester art">
     <div class="track">
       <div class="run" aria-hidden="true">
@@ -152,6 +192,10 @@
     <p><span class="lead"><span class="cap">R</span>equest a digital prank</span> where we carefully craft a personalised digital prank for your victim. These pranks should not require any physical intervention from us. Give us your idea or request an idea from us.</p>
     <p><span class="lead"><span class="cap">R</span>equest a personalised prank</span> just tell us about who and why you want to prank and we take it from there. Maybe we do it physically, maybe digitally, maybe its a prank call, or more.</p>
   </section>
+
+  <div class="framewrap">
+    <div class="frame"><img src="img/prank_call.gif" alt="prank calls"></div>
+  </div>
 </div>
 
 </body>
