@@ -164,13 +164,6 @@
     margin-right: .01em;
   }
 
-  /* On phones and retina screens the hairline blur is multiplied by the device
-     pixel ratio, and filtered layers get rasterised coarsely, so drop it. */
-  @media (min-resolution: 2dppx), (max-width: 820px) {
-    header, .manifesto, .offers, .band, .frame, .archive, .art .credit, .still .credit { filter: none; }
-    header, .offers, .archive, .art .credit, .still .credit { text-shadow: .2px .18px .45px rgba(60,38,60,.25); }
-  }
-
   /* the archive */
   .archive {
     margin-top: clamp(54px, 9vw, 110px);
