@@ -4,9 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maja Mikulska</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400&display=swap">
 <style>
   :root {
-    --ground: #E9E8E6;
+    --ground: #E8E8E9;
     --paper: #FFFFFF;
     --ink: #1D1D1B;
     --muted: #6E6D6B;
@@ -17,14 +20,18 @@
   html, body { height: 100%; }
   body {
     margin: 0;
-    background: var(--ground);
+    background: var(--ground) url("img/tex_ground.jpg") top left / 420px auto repeat;
     color: var(--ink);
     font: 17px/1.45 "Times New Roman", Times, serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     padding-inline: clamp(0px, 4vw, 140px);
   }
-  .paper { background: var(--paper); min-height: 100%; max-width: 790px; margin-inline: auto; padding-bottom: 180px; }
+  .paper {
+    background: var(--paper) url("img/tex_paper.jpg") top left repeat;
+    min-height: 100%; max-width: 790px; margin-inline: auto; padding-bottom: 180px;
+    box-shadow: 0 1px 26px rgba(40,40,46,.17), 0 0 0 1px rgba(40,40,46,.055);
+  }
   .project .stripe { margin-bottom: 0; }
   a { color: var(--link); text-decoration: none; }
   a:hover { text-decoration: underline; }
@@ -37,10 +44,15 @@
 
   /* Home: works scattered across the sheet */
   .works { padding-inline: clamp(16px, 5vw, 60px); }
-  .work { margin-block: 30px 56px; max-width: 100%; background: #F1F1F1; padding: 10px 14px 14px; }
+  .work { margin-block: 30px 56px; max-width: 100%; border: 1px solid var(--ink); padding: 10px 14px 14px; }
   .work .cap { font-size: 17px; margin-bottom: 6px; }
   .work .cap .label { color: var(--link); }
-  .work .cap a { color: var(--ink); }
+  .work .cap a {
+    color: var(--ink);
+    font-family: "EB Garamond", "Times New Roman", Times, serif;
+    font-style: italic;
+    font-size: 1.14em;
+  }
   .work .cap .yr { color: var(--link); }
   .work .shots { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
   .work img { cursor: pointer; }
@@ -50,7 +62,7 @@
   .w-sock .shots img { width: 290px; }
   .w-sock .cap { font-size: 14px; }
   .w-sock .shots { justify-content: flex-end; }
-  .w-scroll { width: auto; max-width: none; background: none; padding: 0;
+  .w-scroll { width: auto; max-width: none; background: none; border: 0; padding: 0;
                margin-inline: calc(clamp(16px, 5vw, 60px) * -1); }
   .w-scroll .cap { padding-left: 14px; }
   .w-scroll .gif { width: 100%; }
@@ -59,8 +71,9 @@
   .w-piano .shots { justify-content: flex-end; }
 
   .picks, .socials { padding-inline: clamp(16px, 5vw, 60px); }
+  .socials.contact { margin-top: 26px; }
   .extra-wrap { padding-inline: clamp(16px, 5vw, 60px); margin-top: 34px; display: flex; justify-content: flex-end; }
-  .extra { background: #F1F1F1; padding: 10px 12px 12px; display: grid; gap: 8px; justify-items: start; }
+  .extra { border: 1px solid var(--ink); padding: 10px 12px 12px; display: grid; gap: 8px; justify-items: start; }
   .extra .note { font-size: 15px; max-width: 26ch; }
   .extra img { width: 220px; max-width: 100%; }
   .picks .label, .socials .label { color: var(--link); }
@@ -71,14 +84,20 @@
   /* Hover description */
   .tip {
     position: fixed; z-index: 10; width: 230px; overflow: hidden;
-    background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 8px 26px rgba(0,0,0,.12);
+    background: var(--paper) url("img/tex_paper.jpg") top left repeat;
+    border: 1px solid var(--rule); box-shadow: 0 8px 26px rgba(0,0,0,.12);
     padding: 8px; font-size: 13.5px; line-height: 1.38; pointer-events: none;
     opacity: 0; transition: opacity .12s; top: 0; left: 0;
   }
   .tip.on { opacity: 1; }
   .tip .thumb { width: 100%; aspect-ratio: 1; object-fit: cover; background: #EFEEEC; }
   .tip .words { padding: 8px 4px 4px; }
-  .tip b { display: block; font-weight: 400; font-style: italic; margin-bottom: 4px; }
+  .tip b {
+    display: block; margin-bottom: 5px;
+    font-family: "EB Garamond", "Times New Roman", Times, serif;
+    font-style: italic; font-weight: 400;
+    font-size: 19px; line-height: 1.15;
+  }
 
   @media (hover: none), (pointer: coarse) { .tip { display: none; } }
 
@@ -89,7 +108,8 @@
   .home.off { display: none; }
   .stripe {
     max-width: 560px; margin-inline: auto; min-height: 100vh;
-    background: #D6D6D6; position: relative;
+    background: #D6D6D6 url("img/tex_stripe.jpg") top left repeat; position: relative;
+    box-shadow: 0 1px 24px rgba(40,40,46,.20), 0 0 0 1px rgba(40,40,46,.07);
     --pad: clamp(18px, 4vw, 34px);
     padding: 26px var(--pad) 90px;
   }
@@ -144,6 +164,7 @@
 </style>
 </head>
 <body>
+
 
 <div class="paper">
   <div class="home" id="home">
