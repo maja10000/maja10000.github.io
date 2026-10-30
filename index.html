@@ -18,6 +18,9 @@
     color-scheme: light;
   }
   html, body { height: 100%; }
+  /* no rubber-band bounce past the top or bottom: on a Mac it pulled the sheet
+     away and showed the background layers unblended */
+  html, body { overscroll-behavior: none; }
   body {
     margin: 0;
     background: var(--ground) url("img/tex_ground.jpg") top left / 420px auto repeat fixed;
