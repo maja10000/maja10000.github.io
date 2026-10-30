@@ -21,6 +21,8 @@
   /* no rubber-band bounce past the top or bottom: on a Mac it pulled the sheet
      away and showed the background layers unblended */
   html, body { overscroll-behavior: none; }
+  /* anything marked hidden stays hidden, whatever its own display rule says */
+  [hidden] { display: none !important; }
   body {
     margin: 0;
     background: var(--ground) url("img/tex_ground.jpg") top left / 420px auto repeat fixed;
