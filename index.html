@@ -4,10 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maja Mikulska</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;500;700&display=swap">
 <style>
   :root {
     --ground: #E8E8E9;
-    --paper: #FFFFFF;
+    --paper: #FCFCFC;
     --ink: #1D1D1B;
     --muted: #6E6D6B;
     --link: #22357F;
@@ -17,16 +20,24 @@
   html, body { height: 100%; }
   body {
     margin: 0;
-    background: var(--ground) url("img/tex_ground.jpg") top left / 420px auto repeat;
+    background: var(--ground) url("img/tex_ground.jpg") top left / 420px auto repeat fixed;
     color: var(--ink);
-    font: 17px/1.45 "Times New Roman", Times, serif;
+    font: 15px/1.45 "Times New Roman", Times, serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
-    padding-inline: clamp(0px, 4vw, 140px);
+    padding-inline: clamp(0px, 5vw, 150px);
   }
+  /* a wireframe sphere pressed into the surface the page lies on */
+  body::before {
+    content: ""; position: fixed; z-index: -1; inset: 0;
+    background: url("img/sphere.jpg") 30% center / min(128vh, 1180px) auto no-repeat;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
   .paper {
     background: var(--paper);
-    min-height: 100%; max-width: 790px; margin-inline: auto; padding-bottom: 180px;
+    min-height: 100%; max-width: 620px; margin-inline: 0 auto; padding-bottom: 120px;
     box-shadow: 0 1px 26px rgba(40,40,46,.17), 0 0 0 1px rgba(40,40,46,.055);
   }
   .project .stripe { margin-bottom: 0; }
@@ -34,40 +45,61 @@
   a:hover { text-decoration: underline; }
   a:focus-visible { outline: 1px solid var(--link); outline-offset: 3px; }
   img { max-width: 100%; display: block; }
-  hr { border: 0; border-top: 1px solid var(--rule); margin: 54px clamp(16px, 5vw, 60px); }
+  hr { display: none; }
 
-  .banner { width: 100%; }
-  .bio { margin: 26px clamp(16px, 5vw, 60px) 0 14px; max-width: 78ch; font-size: 18px; }
+  /* masthead: a fat word and a skinny word, a hairline, a small line under it */
+  .masthead { padding: 30px clamp(16px, 5vw, 60px) 0 14px;
+               filter: url(#worn); mix-blend-mode: multiply; opacity: .93; }
+  .masthead h1 {
+    display: inline-block; margin: 0; padding: 0 6px 5px 0;
+    font-family: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 54px; line-height: 1; letter-spacing: -0.04em; color: #1c1b19;
+    border-bottom: 1.5px solid #1c1b19;
+  }
+  .masthead h1 b { font-weight: 700; }
+  .masthead h1 .thin { font-weight: 200; letter-spacing: -0.02em; }
+  .masthead .since {
+    margin: 5px 0 0;
+    font-family: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px; font-weight: 500; letter-spacing: -0.01em; color: #1c1b19;
+  }
+  .bio { margin: 8px clamp(16px, 5vw, 60px) 0 14px; max-width: 78ch; font-size: 16px; }
 
   /* Home: works scattered across the sheet */
   .works { padding-inline: clamp(16px, 5vw, 60px); }
-  .work { margin-block: 30px 56px; max-width: 100%; background: #F1F1F1; padding: 10px 14px 14px; }
-  .work .cap { font-size: 17px; margin-bottom: 6px; }
+  .work { display: flow-root; margin-block: 10px 26px; max-width: 100%;
+           background: #F1F1F1; padding: 8px 11px 11px; }
+  .work .shots { margin: 0; }
+  .work .cap { font-size: 15px; margin: 0 0 6px; }
   .work .cap .label { color: var(--link); }
   .work .cap a { color: var(--ink); }
   .work .cap .yr { color: var(--link); }
-  .work .shots { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
+
   .work img { cursor: pointer; }
-  .w-eater { width: 300px; }
-  .w-eater .shots img { width: 260px; }
-  .w-sock { width: 320px; margin-left: auto; margin-right: 3%; margin-top: -250px; text-align: right; }
-  .w-sock .shots img { width: 290px; }
-  .w-sock .cap { font-size: 14px; }
-  .w-sock .shots { justify-content: flex-end; }
+  .w-eater { width: 270px; }
+  .w-eater .shots img { width: 270px; }
+  .w-sock { width: 255px; margin-left: auto; margin-right: 8%; background: transparent; }
+  .w-sock .shots img { width: 255px; }
+
   .w-scroll { width: auto; max-width: none; background: none; padding: 0;
                margin-inline: calc(clamp(16px, 5vw, 60px) * -1); }
   .w-scroll .cap { padding-left: 14px; }
   .w-scroll .gif { width: 100%; }
-  .w-piano { width: 320px; margin-left: auto; margin-right: 4%; }
-  .w-piano .cap { text-align: left; }
-  .w-piano .shots { justify-content: flex-end; }
+  .w-piano { width: 235px; }
+  /* the piano with the Nietzsche filter directly under it, one shared left edge */
+  .pair-row { display: flex; flex-direction: column; align-items: flex-start;
+              gap: 18px; width: max-content; max-width: 100%;
+              margin: 10px 10% 26px auto; }
+  .pair-row .work { margin: 0; }
+  .w-piano .shots img { width: 235px; }
+
 
   .picks, .socials { padding-inline: clamp(16px, 5vw, 60px); }
-  .socials.contact { margin-top: 26px; }
-  .extra-wrap { padding-inline: clamp(16px, 5vw, 60px); margin-top: 34px; display: flex; justify-content: flex-end; }
+  .socials.contact { margin-top: 18px; }
+  .extra-wrap { padding-inline: clamp(16px, 5vw, 60px); margin-top: 22px; display: flex; justify-content: flex-end; }
   .extra { background: #F1F1F1; padding: 10px 12px 12px; display: grid; gap: 8px; justify-items: start; }
-  .extra .note { font-size: 15px; max-width: 26ch; }
-  .extra img { width: 220px; max-width: 100%; }
+  .extra .note { font-size: 13.5px; max-width: 26ch; }
+  .extra img { width: 185px; max-width: 100%; }
   .picks .label, .socials .label { color: var(--link); }
   .picks ul, .socials ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 4px; justify-items: start; }
   .picks .photos { margin: 12px 0 0; }
@@ -145,6 +177,7 @@
     .project .desc, .project .gallery img { width: 100%; max-width: 100%; }
     .project .videos { grid-template-columns: 1fr; }
     .w-sock .shots, .w-piano .shots { justify-content: flex-start; }
+    .pair-row { flex-direction: column; gap: 22px; }
     .indent { margin-left: 0; }
 
   }
@@ -155,7 +188,20 @@
 
 <div class="paper">
   <div class="home" id="home">
-    <img class="banner" src="img/banner.jpg" alt="Maja Mikulska — since April 2000">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <!-- worn print: ragged edges, ink that missed a few fibres, a scanner's softness -->
+      <filter id="worn" x="-4%" y="-20%" width="108%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="1.1" xChannelSelector="R" yChannelSelector="G" result="d"/>
+        <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="11" result="g"/>
+        <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -9 0 0 0 7" result="mask"/>
+        <feComposite in="d" in2="mask" operator="in" result="speck"/>
+        <feGaussianBlur in="speck" stdDeviation="0.42"/>
+      </filter>
+    </svg>
+    <header class="masthead">
+      <h1><b>Maja</b> <span class="thin">Mikulska</span></h1>
+    </header>
 
     <p class="bio">Born in Warsaw, Poland, in 2000. From 2022 to 2026 studied BA Interactive/Media/Design at the Royal Academy of Art, The Hague. In 2025 interned at <a href="https://thehmm.nl/" target="_blank" rel="noopener">The Hmm</a>, Amsterdam, and since 2026 have been an intern at <a href="https://www.gast.studio/" target="_blank" rel="noopener">Gast Studio</a>, Amsterdam.</p>
 
@@ -172,8 +218,6 @@
         <div class="shots"><img src="img/sock.jpg" alt="Podcast thumbnail: white socked feet with a play button" data-work="sock" data-go="https://open.spotify.com/episode/1vAVGthy7P2hj8j23NHL8S?si=663912fe28af4eb4&nd=1&dlsi=9f9296ed780f4b72"></div>
       </div>
 
-      <hr>
-
       <div class="work w-scroll">
         <p class="cap"><span class="label">Selected works:</span> <a href="#scroll" data-work="scroll">The Testament of the Flickering Scroll, <span class="yr">2025</span></a></p>
         <div class="shots">
@@ -181,18 +225,18 @@
         </div>
       </div>
 
-      <div class="work w-piano">
-        <p class="cap"><span class="label">Selected works:</span> <a href="#piano" data-work="piano">TikTok piano, <span class="yr">2024</span></a></p>
-        <div class="shots"><img src="img/piano.jpg" alt="A keyboard on a metal stand wired to a trolley of equipment" data-work="piano" data-go="#piano"></div>
+      <div class="pair-row">
+        <div class="work w-piano">
+          <p class="cap"><span class="label">Selected works:</span> <a href="#piano" data-work="piano">TikTok piano, <span class="yr">2024</span></a></p>
+          <div class="shots"><img src="img/piano.jpg" alt="A keyboard on a metal stand wired to a trolley of equipment" data-work="piano" data-go="#piano"></div>
+        </div>
+
+        <div class="extra">
+          <p class="note">Nietzsche for ppl with a short attention span &lt;3, Instagram filter</p>
+          <img src="img/extra.gif" alt="Instagram filter showing a Nietzsche book">
+        </div>
       </div>
     </div>
-
-    <hr>
-
-    <div class="extra-wrap"><div class="extra">
-      <p class="note">Nietzsche for ppl with a short attention span &lt;3, Instagram filter</p>
-      <img src="img/extra.gif" alt="Instagram filter showing a Nietzsche book">
-    </div></div>
 
     <hr>
 
